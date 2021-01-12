@@ -1,12 +1,18 @@
-const model = require('../database/models/Atendimentos')
+const model = require('../database/models/AtendimentosRepository')
 
 module.exports = app => {
-    app.get('/atendimentos',(req,resp) => model.consulta(resp))
+
+    app.get('/atendimentos',(req,resp) => model.consultaTodos(resp))
+    
+    app.get('/atendimentos/:id' , (req, resp) => {
+        const id = parseInt(req.params.id);
+        model.consultaPorId(id, resp)
+    })
 
     app.post('/atendimentos',(req,resp) => {
         
-        const conteudo = req.body
-        model.adiciona(conteudo, resp)
+        const requestBody = req.body
+        model.adiciona(requestBody, resp)
     })
 
     app.delete('/atendimentos/:id' , (req, resp) => {
